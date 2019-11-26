@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" name='' id="file">
+    <button onclick="doUpload()">上传</button>
+    <img src="" width="500" height="500" alt="">
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    //1.上传图片成功之后显示图片
+    function doUpload(){
+        let file = $('#file').get(0).files[0];
+        let fromData  = new FormData()
+        fromData.append('img',file)
+        console.log(file)
+        $.ajax({
+            url:'http://localhost:3000/file/upload',
+            type:'post',
+            cache:false,
+            data: fromData,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                console.log(data)
+                if(data.err == 0){
+                    $('img').attr('src',`http://localhost:3000${data.src}`)
+                }
+            }
+           
+
+        })
+    }
+</script>
+</html>
