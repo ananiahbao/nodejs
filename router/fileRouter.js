@@ -22,9 +22,10 @@ var upload = multer({
      * @api {post} /food/upload  图片上传
      * @apiName upload
      * @apiGroup File
-     * @apiParam {size,mimetype,path} 图片formData
+     * @apiParam {String} formData 图片formData,
      * @apiParam {Array} types 允许上传的数据类型
      * @apiParam {String} src 返回上传路径
+     * @apiParam {String} img 前端formData
      * @apisuccess {String} firstname Firstname of the User
      * @apisuccess {String} lastname Lasrname of the User 
      */

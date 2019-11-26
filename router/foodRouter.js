@@ -6,7 +6,6 @@ const foodmodel = require('../db/model/foodModel');
      * @api {post} /food/add  添加
      * @apiName add
      * @apiGroup Food
-     * 
      * @apiParam {String} name 名称
      * @apiParam {String} price 价格
      * @apiParam {String} desc 描述
@@ -14,8 +13,7 @@ const foodmodel = require('../db/model/foodModel');
      * @apiParam {Number} typdid id
      * @apiParam {String} img 图片
      * @apisuccess {String} firstname Firstname of the User
-     * @apisuccess {String} lastname Lasrname of the User
-     * 
+     * @apisuccess {String} lastname Lasrname of the User 
      */
 router.post('/add',(req,res) => {
     let data = {name,price,desc,typename,typeid ,img} =req.body;
