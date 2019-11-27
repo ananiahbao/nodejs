@@ -78,6 +78,7 @@ router.post('/getInfoBykw',(req,res) => {
      */
 router.post('/del',(req,res) => {
     let {_id} = req.body;
+    console.log(_id)
     // console.log(_id.join(','))
     foodmodel.remove({_id})
     // foodmodel.deleteMany({_id:{$in:_id}}) //多项删除
@@ -115,7 +116,7 @@ router.post('/update',(req,res) => {
     })
 })
     /**
-     * @api {post} /food/getInfoPage  修改
+     * @api {post} /food/getInfoPage  分页
      * @apiName getInfoPage
      * @apiGroup Food
      * @apiParam {Number} pageSize 每页数据条数
@@ -126,10 +127,17 @@ router.post('/update',(req,res) => {
 router.post('/getInfoPage',(req,res) => {
     let pageSize = req.body.pageSize || 5 // 给一个默认值
     let page = req.body.page || 1
-
-    foodmodel.find().limit(Number(pageSize)).skip(Number((page - 1)*pageSize))
+    //查询总页数
+    let count = 0;
+    foodmodel.find()
+    .then((list) => {
+        count = list.length 
+        return foodmodel.find().limit(Number(pageSize)).skip(Number((page - 1)*pageSize))
+    })
     .then((data) => {
-        res.send({err:0,msg:'查询成功',list:data})
+        // res.send({err:0,msg:'查询成功',list:data})
+        let allpage = Math.ceil(count/pageSize)
+        res.send({err:0,msg:'查询成功',info:{count:count,list:data,allpage:allpage}})
     })
     .catch((err) => {
         console.log(err)

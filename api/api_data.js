@@ -11,9 +11,9 @@ define({ "api": [
           {
             "group": "Parameter",
             "type": "String",
-            "optional": true,
-            "field": "size",
-            "description": "<p>,mimetype,path] 图片formData,</p>"
+            "optional": false,
+            "field": "formData",
+            "description": "<p>图片formData,</p>"
           },
           {
             "group": "Parameter",
@@ -28,6 +28,13 @@ define({ "api": [
             "optional": false,
             "field": "src",
             "description": "<p>返回上传路径</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "img",
+            "description": "<p>前端formData</p>"
           }
         ]
       }
@@ -180,7 +187,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/food/getInfoPage",
-    "title": "修改",
+    "title": "分页",
     "name": "getInfoPage",
     "group": "Food",
     "parameter": {
