@@ -89,9 +89,26 @@ function article_save(){
 	alert("刷新父级的时候会自动关闭弹层。")
 	window.parent.location.reload();
 }
+
+(()=>{
+    let id = localStorage.getItem('food')
+    console.log(id)
+    $.post('http://127.0.0.1:3000/food/id',{id:id},(data) => {
+        if(data.err == 0){
+        //    data.list[0]
+        $('#name').val(data.list[0].name)
+        $('#price').val(data.list[0].price)
+        $('#desc').val(data.list[0].desc)
+        $('#type').val(data.list[0].typename)
+        $('#typeid').val(data.list[0].typeid)
+        }
+    })
+})();
 let img = null
 function senddata(){
+    let id = localStorage.getItem('food')
     let params ={
+        _id:id,
         name:$('#name').val(),
         price:$('#price').val(),
         desc:$('#desc').val(),
@@ -100,7 +117,7 @@ function senddata(){
         img:img
     }
     console.log(params)
-    $.post('http://127.0.0.1:3000/food/add',params,(data) => {
+    $.post('http://127.0.0.1:3000/food/update',params,(data) => {
         console.log(data.msg)
     })
 }

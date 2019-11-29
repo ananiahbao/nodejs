@@ -16,12 +16,13 @@ const foodmodel = require('../db/model/foodModel');
      * @apisuccess {String} lastname Lasrname of the User 
      */
 router.post('/add',(req,res) => {
-    let data = {name,price,desc,typename,typeid ,img} =req.body;
+    let {name,price,desc,typename,typeid ,img} =req.body;
     foodmodel.insertMany({name,price,desc,typename,typeid ,img})
     .then((data) => {
         res.send({err:0,msg:'插入成功！'})
     })
     .catch((err) => {
+        console.log(err)
         res.send({err:-1,msg:'插入失败！'})
     })
 });
@@ -45,6 +46,27 @@ router.post('/typefind',(req,res) => {
         res.send({err:-1,msg:'查询失败！'})
     })
 })
+
+    /**
+     * @api {post} /food/id 根据id查询
+     * @apiName id
+     * @apiGroup Food
+     * @apiParam {Number} _id id
+     * @apisuccess {String} firstname Firstname of the User
+     * @apisuccess {String} lastname Lasrname of the User
+     * 
+     */
+    router.post('/id',(req,res) => {
+        let {id} = req.body;
+        console.log(id)
+        foodmodel.find({_id:id})
+        .then((data) => {
+            res.send({err:0,msg:'查询成功！',list:data})
+        })
+        .catch((err) => {
+            res.send({err:-1,msg:'查询失败！'})
+        })
+    })
     /**
      * @api {post} /food/getInfoBykw  模糊查询
      * @apiName getInfokw
