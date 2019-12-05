@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const user = require('../db/model/userModel');
 const emaill = require('../utils/mail');
+const jwt = require('../utils/jwt')
 
     /**
      * @api {post} /user/reg  用户注册
      * @apiName registered
      * @apiGroup User
-     * 
      * @apiParam {String} us 用户名
      * @apiParam {String} ps 密码
      * @apisuccess {String} firstname Firstname of the User
@@ -36,12 +36,10 @@ router.post('/reg',(req,res) => {
     //返回数据
    
 })
-
     /**
      * @api {post} /user/login  用户登录
      * @apiName login
      * @apiGroup User
-     * 
      * @apiParam {String} us 用户名
      * @apiParam {String} ps 密码
      * @apiParam err : 0 成功 -1 参数错误 -2 用户名或密码不正确！
@@ -56,13 +54,20 @@ router.post('/login',(req,res) => {
     user.find({us,ps})
     .then((data) => {
         if(data.length > 0){
-            return res.send({err:0,msg:'登录成功！'})
+            // 登陆成功之后将用户的信息存到session中
+            // req.session.login = true
+            // req.session.us = us
+            // jwt验证
+            let token = jwt.creatToken({login:true,name:us})
+            console.log(token)
+            return res.send({err:0,msg:'登录成功！',token:token})
         }else{
             return res.send({err:-2,msg:'用户名或密码不正确！'})
         }
        
     })
     .catch((err) => {
+        console.log(err)
         return res.send({err:-2,msg:'内部错误！'})
     })
 })
@@ -85,6 +90,18 @@ router.post('/sendmail',(req,res) =>{
     .catch((err) => {
         res.send({err:1,msg:'验证码发送失败！'})
     })
+})
+  /**
+     * @api {post} /user/logout  销毁保存的session
+     * @apiName logout
+     * @apiGroup User
+     * @apisuccess {String} lastname Lasrname of the User 
+     * @apisuccess {String} lastname Lasrname of the User 
+     */
+//销毁保存的session
+router.post('/logout',(req,res) =>{
+    req.session.destroy() 
+    res.send({err:0,msg:'已退出！'})
 })
  
 module.exports = router

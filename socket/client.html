@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>聊天室</h1>
+    <textarea name="" id="text" cols="30" rows="10"></textarea>
+    <button id="btn">send</button>
+    <p></p>
+</body>
+<!-- <script src="https://cdn.bootcss.com/socket.io/2.3.0/socket.io.js"></script> -->
+<script src="socket.io.js"></script>
+
+<script>
+   let socket = io.connect('http://localhost:8000');
+   let text = document.querySelector('#text');
+   let btn = document.querySelector('#btn');
+   let p = document.querySelector('p');
+   btn.addEventListener('click',function(){
+       let msg2 = text.value
+       socket.emit('receive',msg2)
+       text.value =''
+       p.innerHTML += msg2 + '<br/>'
+   },false)
+//    socket.on('hehe',function(msg) {
+//        let p = document.querySelector('p');
+//        p.innerHTML = msg
+//        console.log(msg)
+//    })
+socket.on('message',function(msg){
+    p.innerHTML += msg + '<br/>'
+})
+</script> 
+</html>

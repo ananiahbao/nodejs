@@ -61,7 +61,8 @@
     let url = 'http://127.0.0.1:3000/user/login';
     let params ={
       us:$('#us').val(),
-      ps:$('#ps').val()
+      ps:$('#ps').val(),
+      session : 'ananiah'
     }
     $.post(url,params,(data)=>{
       console.log(data)

@@ -123,6 +123,8 @@ function addfood(pageSize,page){
 		if(data.err == 0){
 			allpage = data.info.allpage
 			renderList(data.info.list)
+		}else if(data.err == -999){
+			alert('session过期')
 		}else{
 			console.log('ajax失败')
 		}
